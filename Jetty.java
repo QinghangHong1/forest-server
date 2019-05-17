@@ -10,8 +10,8 @@ public class Jetty extends Server {
  
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler
         .NO_SESSIONS);
-        context.setContextPath("/test");
-        context.addServlet(new ServletHolder(new GetName()), "/GetName/*");
+        context.setContextPath("/forest");
+        context.addServlet(new ServletHolder(new GetName()), "/GetUserInfo/*");
         context.addServlet(new ServletHolder(new SaveName()), "/SaveName/*");
         context.addServlet(new ServletHolder(new SaveArray()), "/SaveArray/*");
         this.setHandler(context);
