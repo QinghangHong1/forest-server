@@ -11,8 +11,8 @@ public class Jetty extends Server {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler
         .NO_SESSIONS);
         context.setContextPath("/forest");
-        context.addServlet(new ServletHolder(new GetName()), "/GetUserInfo/*");
-        context.addServlet(new ServletHolder(new SaveName()), "/SaveName/*");
+        context.addServlet(new ServletHolder(new GetInfo()), "/GetUserInfo/*");
+        context.addServlet(new ServletHolder(new UpdateInfo()), "/update/*");
         context.addServlet(new ServletHolder(new SaveArray()), "/SaveArray/*");
         this.setHandler(context);
         this.setStopAtShutdown(true);

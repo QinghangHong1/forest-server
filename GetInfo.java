@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
  
 @SuppressWarnings("serial")
-public class GetName extends HttpServlet {
+public class GetInfo extends HttpServlet {
  
-    public GetName() { }
+    public GetInfo() { }
  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
