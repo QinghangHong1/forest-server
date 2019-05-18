@@ -16,8 +16,8 @@ public class GetInfo extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
                                             throws ServletException, IOException{
         try{
+            System.out.println("Connect to getInfo");
             Connection myConn = DriverManager.getConnection("jdbc:mysql://forest1.ccryyxtawuoq.us-west-1.rds.amazonaws.com/innodb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "admin", "cs48rubber");
-        
             String userName = null;
             JsonObject result = null;
        
@@ -25,7 +25,6 @@ public class GetInfo extends HttpServlet {
                 if (request.getParameterMap().containsKey("user_name")) {
                     userName= request.getParameter("user_name");
                     result= getQuery(myConn, userName);
-                    System.out.println(result);
                     if(result != null){
                         response.setStatus(HttpServletResponse.SC_OK);
                     }else if(result == null){

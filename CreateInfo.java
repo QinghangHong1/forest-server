@@ -20,13 +20,14 @@ public class CreateInfo extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                                              throws ServletException, IOException{
         try{  
+            System.out.println("connect to createInfo");
             Connection myConn = DriverManager.getConnection("jdbc:mysql://forest1.ccryyxtawuoq.us-west-1.rds.amazonaws.com/innodb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "admin", "cs48rubber");
             String userName = null;
             String userEmail = null;
             if (request.getParameterMap().containsKey("user_name") && request.getParameterMap().containsKey("user_email")) {
                 userName = request.getParameter("user_name");
                 userEmail = request.getParameter("user_email");
-                if(UpdateInfo.checkExist(myConn, userName, userEmail)){
+                if(UpdateInfo.checkExist(myConn, userName)){
                     response.setStatus(HttpServletResponse.SC_CONFLICT);
                 }else{
                     createData(myConn, userName, userEmail);
@@ -49,6 +50,7 @@ public class CreateInfo extends HttpServlet {
         }
     }
     public static void createData(Connection myConn, String userName, String userEmail) throws SQLException{
+        //enable change to the database
         String init = "SET SQL_SAFE_UPDATES=0;";
         PreparedStatement statement= myConn.prepareStatement(init);
         statement.executeUpdate();
