@@ -1,4 +1,4 @@
-first git clone this repo
+<h1>first git clone this repo</h1>
 <h1>Before every session:</h1>
 <h2>In terminal, add the path:<h2>
   <li>$  export CLASSPATH=.:./lib/* </li>
