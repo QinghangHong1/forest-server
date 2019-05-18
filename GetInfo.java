@@ -51,13 +51,20 @@ public class GetInfo extends HttpServlet {
     
     public static JsonObject getQuery(Connection myConn, String userName) throws SQLException{
         
-        Statement mystmt = myConn.createStatement();
-        String sqlStatement = String.format("SELECT * FROM user_data WHERE user_name=\"%s\"", userName);
-        ResultSet myRs = mystmt.executeQuery(sqlStatement);
+        String  getStatement= "SELECT * FROM user_data WHERE user_name=?";
+        PreparedStatement statement= myConn.prepareStatement(getStatement);
+        statement.setString(1, userName);
+       
+        ResultSet myRs = statement.executeQuery();
         JsonObject result = new JsonObject();
         if(myRs.next()){ 
             result.addProperty("user_name", myRs.getString("user_name"));
             result.addProperty("user_email",myRs.getString("user_email"));
+            result.addProperty("money", myRs.getInt("money"));
+            result.addProperty("attack", myRs.getInt("attack"));
+            result.addProperty("health", myRs.getInt("health"));
+            result.addProperty("game_level", myRs.getInt("game_level"));
+
             return result;
         }
         return null;
