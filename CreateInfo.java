@@ -24,37 +24,38 @@ public class CreateInfo extends HttpServlet {
             Connection myConn = DriverManager.getConnection("jdbc:mysql://forest1.ccryyxtawuoq.us-west-1.rds.amazonaws.com/innodb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "admin", "cs48rubber");
             String userName = null;
             String userEmail = null;
-            if (request.getParameterMap().containsKey("user_name") && request.getParameterMap().containsKey("user_email")) {
+            String userPassword = null;
+            if (request.getParameterMap().containsKey("user_name") && request.getParameterMap().containsKey("user_email") && request.getParameterMap().containsKey("user_password")) {
                 userName = request.getParameter("user_name");
                 userEmail = request.getParameter("user_email");
+                userPassword = request.getParameter("user_password");
+                
                 if(UpdateInfo.checkExist(myConn, userName)){
                     response.setStatus(HttpServletResponse.SC_CONFLICT);
                 }else{
-                    createData(myConn, userName, userEmail);
+                    createData(myConn, userName, userEmail, userPassword);
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
             }else{
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
-
-            
  
         } catch (Exception ex) {
-            System.out.println("\tError");
+            ex.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
  
         } finally {
-            response.setContentType("application/json; charset=utf-8");
+            response.setContentType("text/html; charset=utf-8");
             response.getWriter().println();
             response.getWriter().close();
         }
     }
-    public static void createData(Connection myConn, String userName, String userEmail) throws SQLException{
+    public static void createData(Connection myConn, String userName, String userEmail, String userPassword) throws SQLException{
         //enable change to the database
         String init = "SET SQL_SAFE_UPDATES=0;";
         PreparedStatement statement= myConn.prepareStatement(init);
         statement.executeUpdate();
-        String createStatement = "INSERT INTO user_data (user_name, user_email, health, attack, game_level, money) VALUES (?, ?, ?, ?, ?, ?);";
+        String createStatement = "INSERT INTO user_data (user_name, user_email, health, attack, game_level, money, user_password) VALUES (?, ?, ?, ?, ?, ?,?);";
         statement = myConn.prepareStatement(createStatement);
         statement.setString(1, userName);
         statement.setString(2, userEmail);
@@ -62,6 +63,8 @@ public class CreateInfo extends HttpServlet {
         statement.setInt(4, attack);
         statement.setInt(5, gameLevel);
         statement.setInt(6, money);
+        statement.setString(7, userPassword);
+
         statement.executeUpdate();
     }
  

@@ -19,12 +19,13 @@ public class GetInfo extends HttpServlet {
             System.out.println("Connect to getInfo");
             Connection myConn = DriverManager.getConnection("jdbc:mysql://forest1.ccryyxtawuoq.us-west-1.rds.amazonaws.com/innodb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "admin", "cs48rubber");
             String userName = null;
+            String userPassword = null;
             JsonObject result = null;
-       
             try {
-                if (request.getParameterMap().containsKey("user_name")) {
+                if (request.getParameterMap().containsKey("user_name") && request.getParameterMap().containsKey("user_password")) {
                     userName= request.getParameter("user_name");
-                    result= getQuery(myConn, userName);
+                    userPassword = request.getParameter("user_password");
+                    result= getQuery(myConn, userName, userPassword);
                     if(result != null){
                         response.setStatus(HttpServletResponse.SC_OK);
                     }else if(result == null){
@@ -35,7 +36,8 @@ public class GetInfo extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     System.out.println("bad request");
                 }
-            } catch (Exception ex) {
+            } catch (SQLException ex) {
+                ex.printStackTrace();
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
  
             } finally {
@@ -49,23 +51,24 @@ public class GetInfo extends HttpServlet {
         }
     }
     
-    public static JsonObject getQuery(Connection myConn, String userName) throws SQLException{
+    public static JsonObject getQuery(Connection myConn, String userName, String userPassword) throws SQLException{
         
         String  getStatement= "SELECT * FROM user_data WHERE user_name=?";
         PreparedStatement statement= myConn.prepareStatement(getStatement);
         statement.setString(1, userName);
-       
         ResultSet myRs = statement.executeQuery();
         JsonObject result = new JsonObject();
-        if(myRs.next()){ 
-            result.addProperty("user_name", myRs.getString("user_name"));
-            result.addProperty("user_email",myRs.getString("user_email"));
-            result.addProperty("money", myRs.getInt("money"));
-            result.addProperty("attack", myRs.getInt("attack"));
-            result.addProperty("health", myRs.getInt("health"));
-            result.addProperty("game_level", myRs.getInt("game_level"));
-
-            return result;
+        if(myRs.next()){
+            if(myRs.getString(7).equals(userPassword)){
+                result.addProperty("user_name", myRs.getString("user_name"));
+                result.addProperty("user_email",myRs.getString("user_email"));
+                result.addProperty("money", myRs.getInt("money"));
+                result.addProperty("attack", myRs.getInt("attack"));
+                result.addProperty("health", myRs.getInt("health"));
+                result.addProperty("game_level", myRs.getInt("game_level"));
+                result.addProperty("HP", myRs.getInt("HP"));
+                return result;
+            }
         }
         return null;
     }

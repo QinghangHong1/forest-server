@@ -14,6 +14,8 @@ public class Jetty extends Server {
         context.addServlet(new ServletHolder(new GetInfo()), "/getInfo/*");
         context.addServlet(new ServletHolder(new UpdateInfo()), "/updateInfo/*");
         context.addServlet(new ServletHolder(new CreateInfo()), "/createInfo/*");
+        context.addServlet(new ServletHolder(new GetScoreBoard()), "/getScoreBoard/*");
+
         this.setHandler(context);
         this.setStopAtShutdown(true);
     }

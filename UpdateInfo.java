@@ -27,14 +27,17 @@ public class UpdateInfo extends HttpServlet {
             int health = 0;
             int attack = 0;
             int level = 0;
-            if (request.getParameterMap().containsKey("user_name") && request.getParameterMap().containsKey("money") &&request.getParameterMap().containsKey("game_level") && request.getParameterMap().containsKey("health") && request.getParameterMap().containsKey("attack")) {
+            int HP = 0;
+            if (request.getParameterMap().containsKey("user_name") && request.getParameterMap().containsKey("money") && request.getParameterMap().containsKey("game_level") && request.getParameterMap().containsKey("health") && request.getParameterMap().containsKey("attack") && request.getParameterMap().containsKey("HP")) {
                 userName = request.getParameter("user_name");
                 money = Integer.parseInt(request.getParameter("money"));
                 attack = Integer.parseInt(request.getParameter("attack"));
                 health = Integer.parseInt(request.getParameter("health"));
                 level = Integer.parseInt(request.getParameter("game_level"));
-                
-                boolean result = updateData(myConn, userName, money, health, attack, level);
+                HP = Integer.parseInt(request.getParameter("HP"));
+
+
+                boolean result = updateData(myConn, userName, money, health, attack, level, HP);
                 if(result){
                     response.setStatus(HttpServletResponse.SC_OK);
                     message = "successfully updated the info";
@@ -46,8 +49,6 @@ public class UpdateInfo extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 message = "BAD request. Check your parameter list";
             }
-        }catch(SQLException e){
-            e.printStackTrace();
         }catch (Exception ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
  
@@ -58,21 +59,24 @@ public class UpdateInfo extends HttpServlet {
             response.getWriter().close();
         }
     }
-    public static boolean updateData(Connection myConn, String userName, int money, int health, int attack, int level) throws SQLException{
+    public static boolean updateData(Connection myConn, String userName, int money, int health, int attack, int level, int HP) throws SQLException{
         //Enable update
         if(!checkExist(myConn, userName)){
             return false;
         }
+        //enable change to the database
         String init = "SET SQL_SAFE_UPDATES=0;";
         PreparedStatement statement= myConn.prepareStatement(init);
         statement.executeUpdate();
-        String updateStatement = "UPDATE user_data SET money = ?, health = ?, attack = ?, game_level = ? WHERE user_name=?;";
+        //execute the update statement
+        String updateStatement = "UPDATE user_data SET money = ?, health = ?, attack = ?, game_level = ?, HP = ? WHERE user_name=?;";
         statement = myConn.prepareStatement(updateStatement);
         statement.setInt(1, money);
         statement.setInt(2, health);
         statement.setInt(3, attack);
         statement.setInt(4, level);
-        statement.setString(5, userName);
+        statement.setInt(5, HP);
+        statement.setString(6, userName);
         statement.executeUpdate();
         return true;
     }
