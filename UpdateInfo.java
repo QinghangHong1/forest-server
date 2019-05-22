@@ -48,10 +48,12 @@ public class UpdateInfo extends HttpServlet {
             }else{
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 message = "BAD request. Check your parameter list";
+                System.out.println(request.toString());
+ 
             }
         }catch (Exception ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
- 
+            
         } finally {
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().println("");
