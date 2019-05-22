@@ -35,6 +35,8 @@ public class CreateInfo extends HttpServlet {
                 }else{
                     createData(myConn, userName, userEmail, userPassword);
                     response.setStatus(HttpServletResponse.SC_OK);
+                    EmailSender sender = new EmailSender(userName, userEmail);
+                    sender.sendMail();
                 }
             }else{
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
