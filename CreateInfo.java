@@ -2,6 +2,8 @@ import org.json.simple.*; //for JSON parsing
 import org.json.simple.parser.*; //for JSON parsing
 import java.io.*;
 import java.util.*;
+
+import javax.mail.SendFailedException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ public class CreateInfo extends HttpServlet {
     public static final int health = 90;
     public static final int attack = 1;
     public static final int gameLevel = 1;
+    public static final int HP = 100;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                                              throws ServletException, IOException{
@@ -33,10 +36,14 @@ public class CreateInfo extends HttpServlet {
                 if(UpdateInfo.checkExist(myConn, userName)){
                     response.setStatus(HttpServletResponse.SC_CONFLICT);
                 }else{
-                    createData(myConn, userName, userEmail, userPassword);
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    EmailSender sender = new EmailSender(userName, userEmail);
-                    sender.sendMail();
+                    try{
+                        EmailSender sender = new EmailSender(userName, userEmail);
+                        sender.sendMail();
+                        createData(myConn, userName, userEmail, userPassword);
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    }catch(SendFailedException e){
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    }
                 }
             }else{
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -57,7 +64,7 @@ public class CreateInfo extends HttpServlet {
         String init = "SET SQL_SAFE_UPDATES=0;";
         PreparedStatement statement= myConn.prepareStatement(init);
         statement.executeUpdate();
-        String createStatement = "INSERT INTO user_data (user_name, user_email, health, attack, game_level, money, user_password) VALUES (?, ?, ?, ?, ?, ?,?);";
+        String createStatement = "INSERT INTO user_data (user_name, user_email, health, attack, game_level, money, user_password, HP) VALUES (?, ?, ?, ?, ?, ?,?, ?);";
         statement = myConn.prepareStatement(createStatement);
         statement.setString(1, userName);
         statement.setString(2, userEmail);
@@ -66,6 +73,8 @@ public class CreateInfo extends HttpServlet {
         statement.setInt(5, gameLevel);
         statement.setInt(6, money);
         statement.setString(7, userPassword);
+        statement.setInt(8, HP);
+
 
         statement.executeUpdate();
     }
