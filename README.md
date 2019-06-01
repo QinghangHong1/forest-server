@@ -8,7 +8,7 @@
   `git clone https://github.com/liujiaruirz/rubber_ducks`
  5. `cd path/to/rubber_ducks`
  6. `cp -r * path/to/Crystalis/Assets`</li>
- 7. Open project Crystalis with unity. On top left corner, select ``File->Build and Run`` and save it as ``Game``.
+ 7. Open project Crystalis with unity. On top left corner, select ``File > Build and Run`` and save it as ``Game``.
  8. Double click `Game` and the game will start
 
 
