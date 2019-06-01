@@ -3,7 +3,7 @@
  1. Download Unity Engine <a href="https://store.unity.com/?_ga=2.255587848.1879503588.1559359244-2090126118.1559359244">here</a>
       Choose `For beginners(Personal)`
  2. Open Unity and create an account</li>
- 3. Create a new unity 2d project and name the project `Crystalis`<
+ 3. Create a new unity 2d project and name the project `Crystalis`
  4. On terminal
   `git clone https://github.com/liujiaruirz/rubber_ducks`
  5. `cd path/to/rubber_ducks`
