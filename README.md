@@ -13,5 +13,5 @@
 
 
       
-Server source code is [here](https://github.com:QinghangHong1/crystalis)
+Server source code is [here](https://github.com/QinghangHong1/crystalis)
 
