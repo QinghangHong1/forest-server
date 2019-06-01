@@ -11,7 +11,7 @@
    <li>Open project Crystalis with unity. On top left corner, select `File->Build and Run` and save it as `Game`.</li>
    <li>Double click `Game` and the game will start</li>
 </ol>
-`int *p = &num1`
+
       
 
 
