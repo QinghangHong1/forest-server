@@ -5,7 +5,7 @@
    <li>Open Unity and create an account</li>
    <li>Create a new unity 2d project and name the project `Crystalis`</li>
    <li> On terminal
-  `git clone https://github.com/liujiaruirz/rubber_ducks`</li>
+  'git clone https://github.com/liujiaruirz/rubber_ducks`</li>
    <li>`cd path/to/rubber_ducks` 
    `cp -r * path/to/Crystalis/Assets`</li>
    <li>Open project Crystalis with unity. On top left corner, select `File->Build and Run` and save it as `Game`.</li>
