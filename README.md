@@ -5,7 +5,7 @@
  2. Open Unity and create an account</li>
  3. Create a new unity 2d project and name the project `Crystalis`
  4. On terminal
-  `https://github.com/QinghangHong1/cs48-game`
+  `git clone https://github.com/QinghangHong1/cs48-game`
  5. Change your working directory `cd path/to/Crystalis/Assets`
  6. Delete everything in the Assets folder `rm -r *`
  7. `cp -r path/to/cs48-game/* path/to/Crystalis/Assets`
