@@ -6,11 +6,8 @@
  3. Create a new unity 2d project and name the project `Crystalis`
  4. On terminal
   `https://github.com/QinghangHong1/cs48-game`
-  
-
- 5.Change your working directory `cd path/to/Crystalis/Assets`
- 6.Delete everything in the Assets folder `rm -r *`
- 
+ 5. Change your working directory `cd path/to/Crystalis/Assets`
+ 6. Delete everything in the Assets folder `rm -r *`
  7. `cp -r path/to/cs48-game/* path/to/Crystalis/Assets`
  8. Open project Crystalis with unity. 
  On top left corner, select `File > Build Settings`. In the project window on the bottom, open folder `Scenes` and drag all scenes (files with unity logo) to the Build Settings window. 
